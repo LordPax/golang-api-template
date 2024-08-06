@@ -1,0 +1,18 @@
+services:
+  database:
+    image: postgres:16-alpine
+    environment:
+      POSTGRES_DB: golang-app
+      POSTGRES_PASSWORD: root
+      POSTGRES_USER: root
+    volumes:
+      - database_data:/var/lib/postgresql/data:rw
+    ports:
+      - "5432:5432"
+  adminer:
+    image: adminer:latest
+    ports:
+      - "9090:8080"
+
+volumes:
+  database_data:
