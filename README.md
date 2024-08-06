@@ -1,8 +1,8 @@
-# UrEsport
+# Golang api template
 
 ## Description
 
-UrEsport est une plateforme de gestion de tournois de jeux vidéos. Elle permet aux joueurs de s'inscrire à des tournois, de consulter les résultats et de suivre l'actualité des tournois.
+Ce projet est un template d'API REST en Go.
 
 ## Technologies utilisées
 
@@ -15,12 +15,12 @@ UrEsport est une plateforme de gestion de tournois de jeux vidéos. Elle permet 
 
 1. Clonez le dépôt :
 ```bash
-git clone https://github.com/Pietrucci-Blacher/UrEsport.git
+git clone https://github.com/LordPax/golang-api-template.git
 ```
 
 2. Accédez au répertoire du projet :
 ```bash
-cd UrEsport
+cd golang-api-template
 ```
 
 3. Lancer les conteneur docker
