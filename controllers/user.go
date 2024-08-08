@@ -31,7 +31,7 @@ func GetUsers(c *gin.Context) {
 	}
 
 	for _, user := range users {
-		sanitized = append(sanitized, user.Sanitize(true))
+		sanitized = append(sanitized, user.Sanitize())
 	}
 
 	models.PrintLogf([]string{"user", "GetUsers"}, "Fetched %d users", len(sanitized))
@@ -53,7 +53,7 @@ func GetUsers(c *gin.Context) {
 func GetUser(c *gin.Context) {
 	user, _ := c.MustGet("user").(*models.User)
 
-	sanitized := user.Sanitize(true)
+	sanitized := user.Sanitize()
 
 	models.PrintLogf([]string{"user", "GetUser"}, "Fetched user %d", user.ID)
 	c.JSON(http.StatusOK, sanitized)
@@ -123,7 +123,7 @@ func UpdateUser(c *gin.Context) {
 		return
 	}
 
-	sanitized := user.Sanitize(true)
+	sanitized := user.Sanitize()
 	models.PrintLogf([]string{"user", "UpdateUser"}, "User %d updated", user.ID)
 	c.JSON(http.StatusOK, sanitized)
 }
@@ -156,7 +156,7 @@ func UploadUserImage(c *gin.Context) {
 	}
 
 	models.PrintLogf([]string{"user", "UploadUserImage"}, "User %d image updated", user.ID)
-	c.JSON(http.StatusOK, user.Sanitize(false))
+	c.JSON(http.StatusOK, user.Sanitize())
 }
 
 // DeleteUser godoc

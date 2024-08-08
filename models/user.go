@@ -95,8 +95,7 @@ func FindAllUsers(query services.QueryFilter) ([]User, error) {
 		Where("deleted_at IS NULL").
 		Offset(query.GetSkip()).
 		Where(query.GetWhere()).
-		Order(query.GetSort()).
-		Preload("Teams")
+		Order(query.GetSort())
 
 	if query.GetLimit() != 0 {
 		value.Limit(query.GetLimit())
@@ -139,7 +138,7 @@ func CountUsers() (int64, error) {
 	return count, err
 }
 
-func (u *User) Sanitize(getTeam bool) SanitizedUser {
+func (u *User) Sanitize() SanitizedUser {
 	return SanitizedUser{
 		ID:              u.ID,
 		Username:        u.Username,
@@ -181,7 +180,6 @@ func (u *User) ComparePassword(password string) bool {
 
 func (u *User) FindOneById(id int) error {
 	return DB.Model(&User{}).
-		Preload("Teams").
 		First(&u, id).Error
 }
 
@@ -189,7 +187,6 @@ func (u *User) FindOne(key string, value any) error {
 	return DB.Model(&User{}).
 		Where("deleted_at IS NULL").
 		Where(key, value).
-		Preload("Teams").
 		First(&u).Error
 }
 
