@@ -46,10 +46,7 @@ func connect(client *sockevent.Client, wr http.ResponseWriter, r *http.Request) 
 			client.ID,
 			len(client.Ws.GetClients()),
 		)
-		if err := client.Emit("connected", nil); err != nil {
-			return err
-		}
-		return nil
+		return client.Emit("connected", nil)
 	}
 
 	user := connectedUser.(models.User)
