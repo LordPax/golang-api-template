@@ -1,6 +1,7 @@
 package websockets
 
 import (
+	"context"
 	"fmt"
 	"golang-api/middlewares"
 	"golang-api/models"
@@ -19,13 +20,20 @@ func RegisterWebsocket(r *gin.Engine) {
 	r.GET("/ws",
 		middlewares.IsLoggedIn(false),
 		func(c *gin.Context) {
-			ws.WsHandler(c.Writer, c.Request)
+			connectedUser, ok := c.Get("connectedUser")
+			if !ok {
+				ws.WsHandler(c.Writer, c.Request)
+				return
+			}
+
+			ctx := context.WithValue(c.Request.Context(), "connectedUser", connectedUser)
+			ws.WsHandler(c.Writer, c.Request.WithContext(ctx))
 		},
 	)
 }
 
 func connect(client *sockevent.Client, wr http.ResponseWriter, r *http.Request) error {
-	connectedUser := r.Context().Value("user")
+	connectedUser := r.Context().Value("connectedUser")
 	ok := connectedUser != nil && connectedUser.(models.User).ID != 0
 	client.Set("logged", ok)
 
