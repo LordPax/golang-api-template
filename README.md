@@ -30,12 +30,7 @@ docker-compose up
 
 ## Installation back
 
-1. Accédez au répertoire du projet :
-```bash
-cd back
-```
-
-2. Créez un fichier `.env` à la racine du répertoire `back` et ajoutez les variables d'environnement suivantes :
+1. Créez un fichier `.env` à la racine du répertoire `back` et ajoutez les variables d'environnement suivantes :
 ```bash
 GIN_MODE=debug
 ALLOWED_ORIGINS='*'
@@ -56,25 +51,25 @@ CLOUDINARY_API_KEY=
 CLOUDINARY_API_SECRET=
 ```
 
-3. Intaller les dépendances :
+2. Intaller les dépendances :
 ```bash
 go mod tidy
 go mod vendor
 swag init
 ```
 
-4. Build le projet :
+3. Build le projet :
 ```bash
 go build
 ```
 
-5. Lancer les migrations et les fixtures:
+4. Lancer les migrations et les fixtures:
 ```bash
 ./golang-api migrate
 ./golang-api fixtures
 ```
 
-6. Lancer le projet
+5. Lancer le projet
 ```bash
 ./golang-api
 ```

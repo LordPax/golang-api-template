@@ -5,6 +5,7 @@ import (
 	"golang-api/utils"
 	"time"
 
+	"github.com/LordPax/sockevent"
 	"golang.org/x/crypto/bcrypt"
 )
 
@@ -70,14 +71,14 @@ type UserInfo struct {
 	ProfileImageUrl string `json:"profile_image_url"`
 }
 
-func CountStatsUsers(ws *services.Websocket) map[string]int {
+func CountStatsUsers(ws *sockevent.Websocket) map[string]int {
 	totalUsers, _ := CountUsers()
 
-	loggedClients := ws.FilterClient(func(c *services.Client) bool {
+	loggedClients := ws.FilterClient(func(c *sockevent.Client) bool {
 		return c.Get("logged").(bool)
 	})
 
-	annonClients := ws.FilterClient(func(c *services.Client) bool {
+	annonClients := ws.FilterClient(func(c *sockevent.Client) bool {
 		return !c.Get("logged").(bool)
 	})
 

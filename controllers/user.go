@@ -5,6 +5,7 @@ import (
 	"golang-api/services"
 	"net/http"
 
+	"github.com/LordPax/sockevent"
 	"github.com/gin-gonic/gin"
 )
 
@@ -187,7 +188,7 @@ func DeleteUser(c *gin.Context) {
 }
 
 func GetUsersStats(c *gin.Context) {
-	ws := services.GetWebsocket()
+	ws := sockevent.GetWebsocket()
 	stats := models.CountStatsUsers(ws)
 	c.JSON(http.StatusOK, stats)
 }

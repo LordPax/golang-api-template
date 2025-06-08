@@ -4,6 +4,8 @@ import (
 	"fmt"
 	"golang-api/services"
 	"time"
+
+	"github.com/LordPax/sockevent"
 )
 
 const (
@@ -43,7 +45,7 @@ func FindAllLogs(query services.QueryFilter) ([]Log, error) {
 }
 
 func PrintLogf(tags []string, format string, v ...any) {
-	ws := services.GetWebsocket()
+	ws := sockevent.GetWebsocket()
 	text := fmt.Sprintf(format, v...)
 
 	_ = NewLog(LOG_INFO, tags, text).Save()
@@ -51,7 +53,7 @@ func PrintLogf(tags []string, format string, v ...any) {
 }
 
 func ErrorLogf(tags []string, format string, v ...any) {
-	ws := services.GetWebsocket()
+	ws := sockevent.GetWebsocket()
 	text := fmt.Sprintf(format, v...)
 
 	_ = NewLog(LOG_ERROR, tags, text).Save()
