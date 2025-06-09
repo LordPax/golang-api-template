@@ -28,19 +28,20 @@ func RegisterWebsocket(r *gin.Engine) {
 		return client.Emit("pong", "pong")
 	})
 
-	r.GET("/ws",
-		middlewares.IsLoggedIn(false),
-		func(c *gin.Context) {
-			connectedUser, ok := c.Get("connectedUser")
-			if !ok {
-				ws.WsHandler(c.Writer, c.Request)
-				return
-			}
+	r.GET("/ws", middlewares.IsLoggedIn(false), wsHandler(ws))
+}
 
-			ctx := context.WithValue(c.Request.Context(), "connectedUser", connectedUser)
-			ws.WsHandler(c.Writer, c.Request.WithContext(ctx))
-		},
-	)
+func wsHandler(ws *sockevent.Websocket) gin.HandlerFunc {
+	return func(c *gin.Context) {
+		connectedUser, ok := c.Get("connectedUser")
+		if !ok {
+			ws.WsHandler(c.Writer, c.Request)
+			return
+		}
+
+		ctx := context.WithValue(c.Request.Context(), "connectedUser", connectedUser)
+		ws.WsHandler(c.Writer, c.Request.WithContext(ctx))
+	}
 }
 
 func connect(client *sockevent.Client, wr http.ResponseWriter, r *http.Request) error {
