@@ -16,6 +16,17 @@ func RegisterWebsocket(r *gin.Engine) {
 
 	ws.OnConnect(connect)
 	ws.OnDisconnect(disconnect)
+	ws.On("ping", func(client *sockevent.Client, message any) error {
+		logged := client.Get("logged").(bool)
+		if !logged {
+			fmt.Printf("Client %s sent message: %v\n", client.ID, message)
+			return client.Emit("pong", "pong")
+		}
+
+		user := client.Get("user").(models.User)
+		fmt.Printf("Client %s (%s) sent message: %v\n", client.ID, user.Username, message)
+		return client.Emit("pong", "pong")
+	})
 
 	r.GET("/ws",
 		middlewares.IsLoggedIn(false),
@@ -56,7 +67,7 @@ func connect(client *sockevent.Client, wr http.ResponseWriter, r *http.Request) 
 		client.Ws.Room("admin").AddClient(client)
 	}
 
-	fmt.Printf("Client %s connected, name %s, len %d\n",
+	fmt.Printf("Client %s (%s) connected, len %d\n",
 		client.ID,
 		user.Username,
 		len(client.Ws.GetClients()),
@@ -82,7 +93,7 @@ func disconnect(client *sockevent.Client) error {
 
 	user := client.Get("user").(models.User)
 
-	fmt.Printf("Client %s disconnected, name %s, len %d\n",
+	fmt.Printf("Client %s (%s) disconnected, len %d\n",
 		client.ID,
 		user.Username,
 		len(client.Ws.GetClients()),

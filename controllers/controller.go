@@ -5,6 +5,7 @@ import (
 	"golang-api/middlewares"
 	"golang-api/models"
 	"golang-api/utils"
+	"os"
 
 	"github.com/gin-gonic/gin"
 	swaggerFiles "github.com/swaggo/files"
@@ -12,10 +13,12 @@ import (
 )
 
 func RegisterRoutes(r *gin.Engine) {
-	docs.SwaggerInfo.Title = "UrEsport API"
-	docs.SwaggerInfo.Description = "This is a sample server for UrEsport API."
+	name := os.Getenv("NAME")
+	doamin := os.Getenv("DOMAIN")
+	docs.SwaggerInfo.Title = name
+	docs.SwaggerInfo.Description = "This is a sample server for " + name
 	docs.SwaggerInfo.Version = "1.0"
-	docs.SwaggerInfo.Host = "api.uresport.fr"
+	docs.SwaggerInfo.Host = doamin
 	docs.SwaggerInfo.BasePath = "/v2"
 	docs.SwaggerInfo.Schemes = []string{"http", "https"}
 

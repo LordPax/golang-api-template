@@ -32,6 +32,8 @@ docker-compose up
 
 1. Créez un fichier `.env` à la racine du répertoire `back` et ajoutez les variables d'environnement suivantes :
 ```bash
+NAME=Golang Api
+DOMAIN=localhost:8080
 GIN_MODE=debug
 ALLOWED_ORIGINS='*'
 
@@ -44,7 +46,7 @@ DB_PORT=5432
 COOKIE_SECURE=false
 JWT_SECRET_KEY=secret
 BREVO_API_KEY=
-BREVO_SENDER=noreply@uresport.fr
+BREVO_SENDER=noreply@example.fr
 
 CLOUDINARY_CLOUD_NAME=
 CLOUDINARY_API_KEY=
@@ -53,7 +55,7 @@ CLOUDINARY_API_SECRET=
 
 2. Intaller les dépendances :
 ```bash
-go mod tidy
+go mod download
 go mod vendor
 swag init
 ```
